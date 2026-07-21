@@ -1,186 +1,142 @@
+
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#0a0a0a">
-    <meta name="description" content="ROAM — intelligent, personal travel planning for people who would rather be somewhere else.">
-    <title>ROAM — go somewhere</title>
+    <meta name="theme-color" content="#101010">
+    <meta name="description" content="ROAM — your conversational travel planner.">
+    <title>ROAM — travel, in conversation</title>
     <link rel="stylesheet" href="/static/style.css">
     <script src="/static/script.js" defer></script>
 </head>
 <body>
-    <a class="skip-link" href="#planner">Skip to trip planner</a>
+    <a class="skip-link" href="#messageInput">Skip to message</a>
 
-    <div class="site" id="site">
-        <header class="site-header" aria-label="Primary navigation">
-            <a class="brand" href="#top" aria-label="ROAM home">
-                <span class="brand-mark" aria-hidden="true">R<span>O</span>AM</span>
-                <span class="brand-index">/ AI · 001</span>
-            </a>
+    <div class="app-shell">
+        <div class="sidebar-scrim" id="sidebarScrim" aria-hidden="true"></div>
 
-            <nav class="nav-links" aria-label="Main menu">
-                <a href="#method">How it works</a>
-                <a href="#planner" class="nav-cta">Plan a journey <span aria-hidden="true">↗</span></a>
-            </nav>
-        </header>
-
-        <main id="top">
-            <section class="hero" aria-labelledby="hero-title">
-                <div class="hero-image" role="img" aria-label="A vintage vehicle travelling along a remote mountain road"></div>
-                <div class="hero-shade" aria-hidden="true"></div>
-                <div class="grain" aria-hidden="true"></div>
-
-                <div class="coordinate-rail" aria-hidden="true">
-                    <span>32.2432° N</span>
-                    <i></i>
-                    <span>77.1892° E</span>
-                </div>
-
-                <div class="hero-copy">
-                    <div class="eyebrow reveal-item">
-                        <span>Independent journeys</span>
-                        <span>Issue № 01</span>
-                    </div>
-                    <h1 id="hero-title" class="reveal-item">
-                        The world is<br>
-                        <em>still out there.</em>
-                    </h1>
-                    <p class="hero-intro reveal-item">Tell us where your mind keeps wandering. We’ll turn the impulse into a route worth taking.</p>
-                </div>
-
-                <div class="hero-folio" aria-hidden="true">
-                    <span>Field notes</span>
-                    <span>MMXXVI</span>
-                </div>
-
-                <div class="planner-wrap reveal-item" id="planner">
-                    <form class="planner" id="plannerForm" novalidate>
-                        <div class="planner-topline">
-                            <label for="tripInput">Your travel brief</label>
-                            <span><b id="charCount">0</b>/500</span>
-                        </div>
-                        <div class="prompt-row">
-                            <textarea id="tripInput" name="message" rows="2" maxlength="500" placeholder="Seven quiet days in Japan during autumn, from Delhi…" aria-describedby="plannerHint" required></textarea>
-                            <button class="dispatch-button" type="submit" aria-label="Create my journey">
-                                <span>Build my route</span>
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
-                            </button>
-                        </div>
-                        <div class="planner-footer" id="plannerHint">
-                            <div class="suggestions" aria-label="Trip suggestions">
-                                <button type="button" data-prompt="A slow 10-day road trip through Iceland for two, with hot springs and small guesthouses">Iceland / Slow</button>
-                                <button type="button" data-prompt="Plan a food-first long weekend in Istanbul from Mumbai, keeping it under ₹90,000">Istanbul / Food</button>
-                                <button type="button" data-prompt="A solo week in Vietnam with trains, street food and a mid-range budget">Vietnam / Solo</button>
-                            </div>
-                            <span class="planner-note">Flights · stays · daily rhythm</span>
-                        </div>
-                        <p class="form-error" id="formError" role="alert"></p>
-                    </form>
-                </div>
-
-                <a class="scroll-cue" href="#method">
-                    <span>Scroll to explore</span>
-                    <i aria-hidden="true"></i>
+        <aside class="sidebar" id="sidebar" aria-label="Journey history">
+            <div class="sidebar-top">
+                <a class="brand" href="#" id="brandHome" aria-label="ROAM home">
+                    <span class="brand-word">R<em>O</em>AM</span>
+                    <span class="brand-tag">Travel intelligence</span>
                 </a>
-            </section>
+                <button class="icon-button sidebar-close" id="closeSidebar" type="button" aria-label="Close history">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+                </button>
+            </div>
 
-            <section class="method" id="method" aria-labelledby="method-title">
-                <div class="method-heading">
-                    <div>
-                        <p class="section-kicker">01 / The` approach</p>
-                        <h2 id="method-title">Not a list.<br><em>A way through.</em></h2>
-                    </div>
-                    <p class="method-lead">Good trips have a point of view. ROAM reads between the lines of your brief, searches the practical details, then shapes everything into a journey with pace and purpose.</p>
+            <button class="new-chat-button" id="newChat" type="button">
+                <span class="new-chat-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+                </span>
+                <span>New journey</span>
+                <kbd>⌘ K</kbd>
+            </button>
+
+            <div class="history-heading">
+                <span>Recent journeys</span>
+                <span>24H</span>
+            </div>
+
+            <nav class="history-list" id="historyList" aria-label="Saved conversations"></nav>
+
+            <div class="sidebar-footer">
+                <div class="retention-note">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2"/></svg>
+                    <p>History stays in this browser and expires automatically after one day.</p>
                 </div>
+                <button class="clear-history" id="clearHistory" type="button">Clear history</button>
+            </div>
+        </aside>
 
-                <ol class="method-grid">
-                    <li>
-                        <span class="method-number">01</span>
-                        <div class="method-icon" aria-hidden="true">
-                            <svg viewBox="0 0 48 48"><path d="M8 11h32M8 24h22M8 37h14"/></svg>
-                        </div>
-                        <h3>Leave a field note</h3>
-                        <p>A destination, a feeling, a half-formed idea. Start wherever you are.</p>
-                    </li>
-                    <li>
-                        <span class="method-number">02</span>
-                        <div class="method-icon method-icon--route" aria-hidden="true">
-                            <svg viewBox="0 0 48 48"><circle cx="10" cy="35" r="3"/><circle cx="38" cy="12" r="3"/><path d="M13 34c11-2 7-15 18-16 4-.5 6-3 7-6"/></svg>
-                        </div>
-                        <h3>We trace the route</h3>
-                        <p>Flights, stays, local finds and timing are researched as one connected story.</p>
-                    </li>
-                    <li>
-                        <span class="method-number">03</span>
-                        <div class="method-icon" aria-hidden="true">
-                            <svg viewBox="0 0 48 48"><path d="M9 39 24 8l15 31-15-7-15 7Z"/><path d="m24 8 .2 24"/></svg>
-                        </div>
-                        <h3>Take the long way</h3>
-                        <p>Receive a clear, budget-aware field guide made for how you actually travel.</p>
-                    </li>
-                </ol>
-
-                <div class="route-ticker" aria-hidden="true">
-                    <div class="ticker-track">
-                        <span>Delhi</span><i>✦</i><span>Kyoto</span><i>✦</i><span>Reykjavík</span><i>✦</i><span>Marrakech</span><i>✦</i><span>Lisbon</span><i>✦</i><span>Hanoi</span><i>✦</i>
-                        <span>Delhi</span><i>✦</i><span>Kyoto</span><i>✦</i><span>Reykjavík</span><i>✦</i><span>Marrakech</span><i>✦</i><span>Lisbon</span><i>✦</i><span>Hanoi</span><i>✦</i>
+        <section class="chat-panel" aria-label="Travel planner chat">
+            <header class="chat-header">
+                <div class="chat-header-left">
+                    <button class="icon-button menu-button" id="openSidebar" type="button" aria-label="Open history">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                    </button>
+                    <div class="active-chat-meta">
+                        <span class="active-chat-title" id="activeChatTitle">New journey</span>
+                        <span class="live-status"><i></i> Planner online</span>
                     </div>
                 </div>
-            </section>
-        </main>
+                <div class="chat-header-actions">
+                    <span class="local-time" id="localTime">--:-- IST</span>
+                    <button class="header-new-chat" id="headerNewChat" type="button">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                        <span>New</span>
+                    </button>
+                </div>
+            </header>
 
-        <footer class="site-footer">
-            <a class="brand brand--footer" href="#top"><span class="brand-mark">R<span>O</span>AM</span></a>
-            <p>Made for the beautifully undecided.</p>
-            <p><span id="localTime">--:--</span> / India</p>
-        </footer>
+            <main class="chat-scroll" id="chatScroll">
+                <section class="welcome" id="welcome" aria-labelledby="welcomeTitle">
+                    <div class="welcome-art">
+                        <img src="/static/images/roam-chat-cover.webp" alt="A sailboat moving beside a pale coastline seen from above">
+                        <div class="art-caption" aria-hidden="true">
+                            <span>FIELD NOTE / 001</span>
+                            <span>GO SOMEWHERE</span>
+                        </div>
+                    </div>
+                    <p class="welcome-kicker">Your journey starts here</p>
+                    <h1 id="welcomeTitle">Where should we <em>go?</em></h1>
+                    <p class="welcome-copy">Describe the trip in your head—even if it’s only a feeling. I’ll work through flights, stays, pace, and budget with you.</p>
+
+                    <div class="starter-grid" aria-label="Suggested travel prompts">
+                        <button type="button" data-prompt="Plan a quiet 8-day autumn trip through Japan from Delhi, with small towns and a mid-range budget">
+                            <span>Japan in autumn</span>
+                            <small>Quiet towns · 8 days</small>
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+                        </button>
+                        <button type="button" data-prompt="Build a food-first long weekend in Istanbul from Mumbai for two people under ₹90,000">
+                            <span>Eat through Istanbul</span>
+                            <small>Food trail · Weekend</small>
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+                        </button>
+                        <button type="button" data-prompt="A solo week in Vietnam using trains, with street food, local stays and a practical budget">
+                            <span>Vietnam by rail</span>
+                            <small>Solo · Local pace</small>
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+                        </button>
+                        <button type="button" data-prompt="Help me choose a cool-weather international destination from India for 6 days in October under ₹1.2 lakh">
+                            <span>Surprise me</span>
+                            <small>October · Under ₹1.2L</small>
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+                        </button>
+                    </div>
+                </section>
+
+                <section class="conversation" id="conversation" aria-live="polite" aria-label="Conversation"></section>
+            </main>
+
+            <div class="composer-zone">
+                <form class="composer" id="chatForm" novalidate>
+                    <textarea id="messageInput" rows="1" maxlength="1200" placeholder="Ask ROAM to plan a journey…" aria-label="Message ROAM" required></textarea>
+                    <div class="composer-bottom">
+                        <div class="composer-hint">
+                            <span><kbd>Enter</kbd> to send</span>
+                            <span class="char-counter"><b id="charCount">0</b>/1200</span>
+                        </div>
+                        <button class="send-button" id="sendButton" type="submit" aria-label="Send message">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+                        </button>
+                    </div>
+                </form>
+                <p class="composer-disclaimer">ROAM can make mistakes. Confirm live prices and availability before booking.</p>
+            </div>
+        </section>
     </div>
 
-    <section class="loading-screen" id="loadingScreen" aria-hidden="true" aria-live="polite">
-        <div class="loading-grain grain" aria-hidden="true"></div>
-        <button class="loading-close" id="cancelRequest" type="button" aria-label="Cancel and return">Close <span>×</span></button>
-        <div class="contour-loader" aria-hidden="true">
-            <span></span><span></span><span></span><span></span>
-            <i></i>
-        </div>
-        <div class="loading-copy">
-            <span class="loading-index" id="loadingIndex">01 / 04</span>
-            <p id="loadingMessage">Reading between the lines</p>
-            <div class="loading-line"><i id="loadingProgress"></i></div>
-        </div>
-        <p class="loading-foot">Keep this tab open — considered routes take a moment.</p>
-    </section>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <section class="result-screen" id="resultScreen" aria-hidden="true">
-        <header class="result-header">
-            <a class="brand brand--result" href="#" id="resultHome" aria-label="Return home">
-                <span class="brand-mark">R<span>O</span>AM</span>
-                <span class="brand-index">/ FIELD GUIDE</span>
-            </a>
-            <div class="result-actions">
-                <button type="button" id="copyPlan">Copy plan</button>
-                <button type="button" id="printPlan">Print</button>
-                <button type="button" class="new-plan" id="newPlan">New journey <span>↗</span></button>
-            </div>
-        </header>
-
-        <div class="result-layout">
-            <aside class="result-aside">
-                <p class="section-kicker">Your journey / <span id="resultDate"></span></p>
-                <h2 id="resultTitle">Your personal<br><em>field guide.</em></h2>
-                <div class="request-card">
-                    <span>Original brief</span>
-                    <p id="originalRequest"></p>
-                </div>
-                <div class="result-stamp" aria-hidden="true">
-                    <svg viewBox="0 0 100 100"><defs><path id="circlePath" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0"/></defs><text><textPath href="#circlePath">ROAM FAR · STAY CURIOUS · </textPath></text><path d="M37 61 51 31l12 30-12-7-14 7Z"/></svg>
-                </div>
-            </aside>
-            <article class="itinerary" id="resultContent" aria-label="Generated travel plan"></article>
+    <template id="historyEmptyTemplate">
+        <div class="history-empty">
+            <span aria-hidden="true">↗</span>
+            <p>No saved journeys yet.</p>
+            <small>Your conversations will appear here.</small>
         </div>
-    </section>
-
-    <div class="toast" id="toast" role="status" aria-live="polite">Copied to clipboard</div>
+    </template>
 </body>
 </html>
